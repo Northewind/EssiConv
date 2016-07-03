@@ -1,0 +1,39 @@
+4             #Ignore text off
+
+82            #G91 81=G90
+
+38            #G40  29=G41 30=G42
+
+45            #Heigth adjust
+
+5	      #Rapid on
+
+-440+300      #X-44. Y30.
+
+6             #Rapid off
+
+7             #Start burner
+
++880+0        #G1 X88 Y0  
+
++60-60+0-60-  #G2 X6 Y-6 I0 J-6
+
++0-480        #G1 X0 Y-48
+
+-60-60-60+0-  #G2 X-6Y-6 I-6 J0
+
+-880+0        #G1 X-88 Y0
+
+-60-60+0-60+  #G3 X-6 Y-6 I0 J-6 
+
+.....
+
+.....
+
+8             #Stop burner
+
+46            #Retract
+
+5             #Rapid on
+
+63            #M30

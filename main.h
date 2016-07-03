@@ -11,5 +11,8 @@ enum exit_status {
 	EX_SYNTAX
 };
 
+/** Current processing line number */
+extern int line_no;
+
 
 #endif /* MAIN_H */

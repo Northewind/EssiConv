@@ -1,5 +1,5 @@
 OUTF=bin/essi2eia
-COMP_OPT=--pedantic -std=c89 -lm -o ${OUTF} *.c
+COMP_OPT=--pedantic -std=c89 -o ${OUTF} *.c
 
 all:
 	gcc ${COMP_OPT}
