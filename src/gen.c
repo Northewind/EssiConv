@@ -25,9 +25,9 @@ static int gen_mov(char *s)
 		printf("G1 X%g Y%g\n", coords[0], coords[1]);
 		break;
 	case 4:
-		if (*s == '-')
+		if (*s == '+')
 			dir = 2;
-		else if (*s == '+')
+		else if (*s == '-')
 			dir = 3;
 		else
 			err_proc(ER_SYNTAX);
