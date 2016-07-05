@@ -10,8 +10,13 @@ void err_proc(enum err_type e)
 	case ER_SYNTAX:
 		fprintf(stderr, "Syntax error in line %d\n", line_no);
 		exit(EX_SYNTAX);
-	default:
+	case ER_UNSUPPORTED_CODE:
+		fprintf(stderr, "Unsupported code in line %d\n", line_no);
 		break;
+	case ER_INTERNAL:
+	default:
+		fputs("Internal error", stderr);
+		exit(EX_INTERNAL);
 	}
 }
 

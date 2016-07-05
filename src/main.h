@@ -7,8 +7,9 @@
 
 enum exit_status {
 	EX_NORM = 0,
-	EX_NOMEM,
-	EX_SYNTAX
+	EX_NOMEMORY,
+	EX_SYNTAX,
+	EX_INTERNAL
 };
 
 /** Current processing line number */
