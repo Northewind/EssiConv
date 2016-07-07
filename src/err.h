@@ -9,7 +9,7 @@ enum err_type {
 };
 
 
-void err_proc(enum err_type);
+int err_proc(enum err_type);
 
 
 #endif /* ERR_H */

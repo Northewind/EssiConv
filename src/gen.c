@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "gen.h"
 #include "err.h"
 
 
-static int is_move_line = 1;
-static int is_move_arcCW = 0;
-static int is_move_arcCCW = 0;
+static int is_move_line = -1;
+static int is_move_arcCW = -1;
+static int is_move_arcCCW = -1;
 
 static int is_comment = 0;
 static int is_rapid = 0;
@@ -28,7 +29,7 @@ static void comment_on()
 static void comment_off()
 {
 	is_comment = 0;
-	sw_comment(NULL);
+	gen_comment(NULL);
 	puts(")");
 }
 
@@ -88,35 +89,10 @@ static void reset_func()
 }
 
 
-static char* rm_newline(char *s)
+
+void gen_code(char *s)
 {
-	int n = strlen(s);
-	if (s[n-1] == '\n') {
-		s[n-1] = '\0';
-	}
-	return s;
-}
-
-
-int sw_comment(char *s)
-{
-	static int first_line = 1;
-	if (is_comment) {
-		if (s) {
-			if (! first_line) putchar('\n');
-			printf("%s", rm_newline(s));
-			first_line = 0;
-		}
-		return 1;
-	} else {
-		first_line = 1;
-		return 0;
-	}
-}
-
-
-void sw_code(int n)
-{
+	int n = atoi(s);
 	switch (n) {
 	case 0:
 		program_end();
@@ -169,8 +145,42 @@ void sw_code(int n)
 	}
 }
 
-void sw_prs(char *s)
+
+void gen_lineto(double x, double y)
 {
-	sw_code(atoi(s));
+	printf("G1 ");
+	printf("X%g Y%g\n", x, y);
+}
+
+
+void gen_arcCW(double x, double y, double i, double j)
+{
+	printf("G2 ");
+	printf("X%g Y%g I%g J%g\n", x, y, i, j);
+}
+
+
+void gen_arcCCW(double x, double y, double i, double j)
+{
+	printf("G3 ");
+	printf("X%g Y%g I%g J%g\n", x, y, i, j);
+}
+
+
+int gen_comment(char *s)
+{
+	static int first_line = 1;
+	if (is_comment) {
+		if (! first_line) putchar('\n');
+		{ /* Remove trailing '\n' */
+			int n = strlen(s);
+			if (s[n-1] == '\n') s[n-1] = '\0';
+		}
+		printf("%s", s);
+		first_line = 0;
+	} else {
+		first_line = 1;
+	}
+	return is_comment;
 }
 

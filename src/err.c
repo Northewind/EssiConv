@@ -4,7 +4,7 @@
 #include "err.h"
 
 
-void err_proc(enum err_type e)
+int err_proc(enum err_type e)
 {
 	switch (e) {
 	case ER_SYNTAX:
@@ -18,5 +18,6 @@ void err_proc(enum err_type e)
 		fputs("Internal error", stderr);
 		exit(EX_INTERNAL);
 	}
+	return 1;
 }
 

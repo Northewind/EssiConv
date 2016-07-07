@@ -6,7 +6,7 @@ T2=115_046.esi
 T3=115_065.esi
 Tc1=comment1
 Tc2=comment2
-COMP_OPT=--pedantic -std=c89 -o ${OUTF} src/*.c
+COMP_OPT=-Wall --pedantic -std=c89 -o ${OUTF} src/*.c
 
 all:
 	gcc ${COMP_OPT}
