@@ -1,16 +1,14 @@
 #ifndef GEN__H
 #define GEN__H
 
+
 /** Initialize automaton state */
 void gen_init();
 
 /** Code string processing */
-void gen_code(char *s);
+void gen_str(char *str);
 
-/** Test if commenting now, then print */
-int gen_comment(char *s);
-
-/** Generate straigh movement */
+/** Generate straight movement */
 void gen_lineto(double x, double y);
 
 /** Generate clockwise arc  movement */

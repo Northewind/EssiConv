@@ -8,7 +8,7 @@ T4=115_117.esi
 Tc1=comment1
 Tc2=comment2
 Tg1=geom1
-COMP_OPT=-Wall --pedantic -std=c89 -o ${OUTF} src/*.c
+COMP_OPT=-Wall -g --pedantic -std=c89 -o ${OUTF} src/*.c
 
 all:
 	gcc ${COMP_OPT}

@@ -5,14 +5,6 @@
 #include "err.h"
 
 
-enum moves { /* Moving types: G1/G2/G3/unknown */
-	m_straight,
-	m_arcCW,
-	m_arcCCW,
-	m_unknown
-};
-
-
 enum enabl {
 	off, on
 };
@@ -26,17 +18,24 @@ enum kerf_comp { /* Kerf compensation: G40/G41/G42 */
 
 
 enum inc_abs { /* Incremental or absolute mode: G90/G91 */
-	ia_incremental,
-	ia_absolute
+	ia_absolute,
+	ia_incremental
+};
+
+
+enum markers {
+	offset_number = 8
 };
 
 
 static struct state {
-	enum moves move_type;
+	double x, y;
 	enum enabl comment;
 	enum enabl rapid;
 	enum enabl cutting;
 	enum enabl marker1;
+	enum enabl marker_offset[offset_number];
+	enum enabl marker2;
 
 	enum kerf_comp comp;
 
@@ -44,7 +43,17 @@ static struct state {
 } s;
 
 
-
+static void move_xy(double x, double y)
+{
+	switch (s.mode) {
+	case ia_absolute:
+		s.x = x;
+		s.y = y;
+	case ia_incremental:
+		s.x += x;
+		s.y += y;
+	}
+}
 
 static void program_stop()
 {
@@ -53,27 +62,12 @@ static void program_stop()
 
 static void comment(enum enabl val)
 {
-	switch (s.comment = val) {
-	case on:
-		putchar('(');
-		break;
-	case off:
-		gen_comment(NULL);
-		puts(")");
-		break;
-	}
+	s.comment = val;
 }
 
 static void rapid(enum enabl val)
 {
-	switch (s.rapid = val) {
-	case on:
-		s.move_type = m_straight;
-		break;
-	case off:
-		s.move_type = m_unknown;
-		break;
-	}
+	s.rapid = val;
 }
 
 static void cutting(enum enabl val)
@@ -100,6 +94,42 @@ static void marker1(enum enabl val)
 	}
 }
 
+static void marker_offset(int idx, enum enabl val)
+{
+	int m_on, m_off;
+	if (idx == 0 || idx == 1) {
+		idx = 1;
+		m_on = 11;
+		m_off = 12;
+	} else if (idx == 2) {
+		m_on = 73;
+		m_off = 72;
+	} else if (idx >= 3 && idx <= offset_number) {
+		m_on = 275 + (idx - 3)*2;
+		m_off = m_on - 1;
+	}
+	switch (s.marker_offset[idx-1] = val) {
+	case on:
+		printf("M%d\n", m_on);
+		break;
+	case off:
+		printf("M%d\n", m_off);
+		break;
+	}
+}
+
+static void marker2(enum enabl val)
+{
+	switch (s.marker2 = val) {
+	case on:
+		puts("M13");
+		break;
+	case off:
+		puts("M14");
+		break;
+	}
+}
+
 static void kerf_comp(enum kerf_comp val)
 {
 	switch (s.comp = val) {
@@ -113,6 +143,11 @@ static void kerf_comp(enum kerf_comp val)
 		puts("G42");
 		break;
 	}
+}
+
+static void feed(unsigned val)
+{
+	printf("F%u\n", val);
 }
 
 static void reset_func()
@@ -140,12 +175,19 @@ static void mode_inc_abs(enum inc_abs val)
 
 
 void gen_init()
-{	
-	s.move_type = m_unknown;
+{
+	s.x = s.y = 0.0;
 	s.comment = off;
 	s.rapid = off;
 	s.cutting = off;
 	s.marker1 = off;
+	{
+		int i;
+		for (i = 0; i < offset_number; i++) {
+			s.marker_offset[i] = off;
+		}
+	}
+	s.marker2 = off;
 
 	s.comp = kc_disable;
 
@@ -153,9 +195,16 @@ void gen_init()
 }
 
 
-void gen_code(char *s)
+void gen_str(char *str)
 {
-	int n = atoi(s);
+	char *endptr;
+	int n = strtol(str, &endptr, 10);
+	if (s.comment == on  &&  n != 4) {
+		str[strlen(str)-1] = '\0';
+		printf("(%s)\n", str);
+		return;
+	}
+	if (str == endptr) err_proc(ER_SYNTAX);
 	switch (n) {
 	case 0:
 		program_stop();
@@ -184,6 +233,24 @@ void gen_code(char *s)
 	case 10:
 		marker1(off);
 		break;
+	case 11:
+		marker_offset(atoi(endptr), on);
+		break;
+	case 12:
+		marker_offset(atoi(endptr), off);
+		break;
+	case 13:
+		marker2(on);
+		break;
+	case 14:
+		marker2(off);
+		break;
+	case 15:
+		marker_offset(2, on);
+		break;
+	case 16:
+		marker_offset(2, off);
+		break;
 
 	case 29:
 		kerf_comp(kc_left);
@@ -193,6 +260,9 @@ void gen_code(char *s)
 		break;
 	case 38:
 		kerf_comp(kc_disable);
+		break;
+	case 39:
+		feed(atoi(endptr)*10);
 		break;
 
 	case 63:
@@ -225,7 +295,7 @@ void gen_code(char *s)
 
 void gen_lineto(double x, double y)
 {
-	s.move_type = m_straight;
+	move_xy(x, y);
 	if (s.rapid) {
 		printf("G0 ");
 	} else {
@@ -237,7 +307,12 @@ void gen_lineto(double x, double y)
 
 void gen_arcCW(double x, double y, double i, double j)
 {
-	s.move_type = m_arcCW;
+	if (s.mode == ia_absolute) {
+		/* Make I & J always incremental in G-code */
+		i = i - s.x;
+		j = j - s.y;
+	}
+	move_xy(x, y);
 	s.rapid = 0;
 	printf("G2 X%g Y%g I%g J%g\n", x, y, i, j);
 }
@@ -245,26 +320,13 @@ void gen_arcCW(double x, double y, double i, double j)
 
 void gen_arcCCW(double x, double y, double i, double j)
 {
-	s.move_type = m_arcCW;
+	if (s.mode == ia_absolute) {
+		/* Make I & J always incremental in G-code */
+		i = i - s.x;
+		j = j - s.y;
+	}
+	move_xy(x, y);
 	s.rapid = 0;
 	printf("G3 X%g Y%g I%g J%g\n", x, y, i, j);
-}
-
-
-int gen_comment(char *str)
-{
-	static int first_line = 1;
-	if (s.comment) {
-		if (! first_line) putchar('\n');
-		{ /* Remove trailing '\n' */
-			int n = strlen(str);
-			if (str[n-1] == '\n') str[n-1] = '\0';
-		}
-		printf("%s", str);
-		first_line = 0;
-	} else {
-		first_line = 1;
-	}
-	return s.comment;
 }
 

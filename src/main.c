@@ -41,17 +41,14 @@ static int move(char *s)
 static void proc_str(char *s)
 {
 	if (s[0] == '%') {
-		return;
+		puts("%\n");
 	} else if (s[0] == '\n') {
+		putchar('\n');
 		return;
 	} else if (s[0] == '+' || s[0] == '-') {
 		move(s);
-	} else if (isdigit(s[0])) {		
-		gen_code(s);
-	} else if (gen_comment(s)) {
-		return;
 	} else {
-		err_proc(ER_SYNTAX);
+		gen_str(s);
 	}
 }
 
