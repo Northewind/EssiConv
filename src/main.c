@@ -59,6 +59,7 @@ static void proc_str(char *s)
 int main (int argc, char* argv[])
 {
 	char s[STR_SZ] = "";
+	gen_init();
 	while (!feof(stdin)) {
 		line_no++;
 		fgets(s, STR_SZ, stdin);

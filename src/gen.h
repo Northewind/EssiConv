@@ -1,6 +1,8 @@
 #ifndef GEN__H
 #define GEN__H
 
+/** Initialize automaton state */
+void gen_init();
 
 /** Code string processing */
 void gen_code(char *s);
