@@ -10,7 +10,6 @@ enum enabl {
 	off, on
 };
 
-
 /** Initialize automaton state */
 void gen_init();
 

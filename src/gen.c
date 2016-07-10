@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "main.h"
 #include "gen.h"
 #include "err.h"
 
@@ -24,6 +25,12 @@ enum inc_abs {
 };
 
 
+enum buf_sizes {
+	max_mcode_str_len = 64,
+	max_block_comment_str_len = 128
+};
+
+
 static struct state {
 	double x, y;
 	enum enabl comment;
@@ -39,6 +46,7 @@ static struct state {
 } s;
 
 
+/** Initial automatum state */
 void gen_init()
 {
 	s.x = s.y = 0.0;
@@ -55,11 +63,22 @@ void gen_init()
 	s.marker2 = off;
 
 	s.comp = kc_disable;
-
-	gen_mode_inc();
+	
+	s.mode = ia_incremental; /*gen_mode_inc();*/ 
 }
 
 
+/** Print G-code and comment (optional) */
+static void print(char *x, char *y)
+{
+	printf(x);
+	if (cmd_opt_comments())
+		printf("\t\t(%s)", y);
+	putchar('\n');
+}
+
+
+/** Set x,y */
 static void move_xy(double x, double y)
 {
 	switch (s.mode) {
@@ -73,47 +92,56 @@ static void move_xy(double x, double y)
 }
 
 
+/** Linear interpolation generation */
 void gen_lineto(double x, double y)
 {
+	char block_str[max_mcode_str_len];
 	move_xy(x, y);
 	if (s.rapid) {
 		printf("G0 ");
 	} else {
 		printf("G1 ");
 	}
-	printf("X%g Y%g\n", x, y);
+	sprintf(block_str, "X%g Y%g", x, y);
+	print(block_str, "linear interpolation");
+}
+
+
+/** Make I & J always incremental in G-code */
+static void incIJ(double *i, double *j)
+{
+	if (s.mode == ia_absolute) {
+		*i = *i - s.x;
+		*j = *j - s.y;
+	}
 }
 
 
 void gen_arcCW(double x, double y, double i, double j)
 {
-	if (s.mode == ia_absolute) {
-		/* Make I & J always incremental in G-code */
-		i = i - s.x;
-		j = j - s.y;
-	}
+	char block_str[max_mcode_str_len];
+	incIJ(&i, &j);
 	move_xy(x, y);
 	s.rapid = 0;
-	printf("G2 X%g Y%g I%g J%g\n", x, y, i, j);
+	sprintf(block_str, "G2 X%g Y%g I%g J%g", x, y, i, j);
+	print(block_str, "circular clockwise interpolation");
 }
 
 
 void gen_arcCCW(double x, double y, double i, double j)
 {
-	if (s.mode == ia_absolute) {
-		/* Make I & J always incremental in G-code */
-		i = i - s.x;
-		j = j - s.y;
-	}
+	char block_str[max_mcode_str_len];
+	incIJ(&i, &j);
 	move_xy(x, y);
 	s.rapid = 0;
-	printf("G3 X%g Y%g I%g J%g\n", x, y, i, j);
+	sprintf(block_str, "G3 X%g Y%g I%g J%g", x, y, i, j);
+	print(block_str, "circular counter-clockwise interpolation");
 }
 
 
 void gen_program_stop()
 {
-	puts("M0");
+	print("M0", "stop");
 }
 
 
@@ -139,10 +167,10 @@ void gen_cutting(enum enabl val)
 {
 	switch (s.cutting = val) {
 	case on:
-		puts("M7");
+		print("M7", "cutting device on");
 		break;
 	case off:
-		puts("M8");
+		print("M8", "cutting device off");
 		break;
 	}
 }
@@ -152,10 +180,10 @@ void gen_marker1(enum enabl val)
 {
 	switch (s.marker1 = val) {
 	case on:
-		puts("M9");
+		print("M9", "enable marker 1");
 		break;
 	case off:
-		puts("M10");
+		print("M10", "disable marker 1");
 		break;
 	}
 }
@@ -164,6 +192,7 @@ void gen_marker1(enum enabl val)
 void gen_marker_offset(int idx, enum enabl val)
 {
 	int m_on, m_off;
+	char m_str[max_mcode_str_len], comm_str[max_block_comment_str_len];
 	if (idx == 0 || idx == 1) {
 		idx = 1;
 		m_on = 11;
@@ -177,10 +206,14 @@ void gen_marker_offset(int idx, enum enabl val)
 	}
 	switch (s.marker_offset[idx-1] = val) {
 	case on:
-		printf("M%d\n", m_on);
+		sprintf(m_str, "M%d", m_on);
+		sprintf(comm_str, "marker offset %d on", idx);
+		print(m_str, comm_str);
 		break;
 	case off:
-		printf("M%d\n", m_off);
+		sprintf(m_str, "M%d", m_off);
+		sprintf(comm_str, "marker offset %d off", idx);
+		print(m_str, comm_str);
 		break;
 	}
 }
@@ -190,10 +223,10 @@ void gen_marker2(enum enabl val)
 {
 	switch (s.marker2 = val) {
 	case on:
-		puts("M13");
+		print("M13", "enable marker 2");
 		break;
 	case off:
-		puts("M14");
+		print("M14", "disable marker 2");
 		break;
 	}
 }
@@ -203,13 +236,13 @@ static void comp(enum kerf_comp val)
 {
 	switch (s.comp = val) {
 	case kc_disable:
-		puts("G40");
+		print("G40", "disable kerf");
 		break;
 	case kc_left:
-		puts("G41");
+		print("G41", "enable left kerf comp");
 		break;
 	case kc_right:
-		puts("G42");
+		print("G42", "enable right kerf comp");
 		break;
 	}
 }
@@ -235,19 +268,21 @@ void gen_kerf_comp_disable()
 
 void gen_feed(unsigned val)
 {
-	printf("F%u\n", val);
+	char block_str[max_mcode_str_len];
+	sprintf(block_str, "F%u", val);
+	print(block_str, "machine speed");
 }
 
 
 void gen_reset_func()
 {
-	puts("M31");
+	print("M31", "reset functions");
 }
 
 
 void gen_program_end()
 {
-	puts("M2");
+	print("M2", "end program");
 }
 
 
@@ -255,10 +290,10 @@ static void mode(enum inc_abs val)
 {
 	switch (s.mode = val) {
 	case ia_incremental:
-		puts("G91");
+		print("G91", "incremental mode");
 		break;
 	case ia_absolute:
-		puts("G90");
+		print("G90", "absolute mode");
 		break;
 	}
 }

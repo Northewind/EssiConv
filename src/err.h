@@ -11,7 +11,6 @@ enum err_type {
 	er_unsupport_code
 };
 
-
 int err_proc(enum err_type);
 
 
