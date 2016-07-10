@@ -7,16 +7,16 @@
 int err_proc(enum err_type e)
 {
 	switch (e) {
-	case ER_SYNTAX:
+	case er_syntax:
 		fprintf(stderr, "Syntax error in line %d\n", line_no);
-		exit(EX_SYNTAX);
-	case ER_UNSUPPORTED_CODE:
+		exit(ex_syntax);
+	case er_unsupport_code:
 		fprintf(stderr, "Unsupported code in line %d\n", line_no);
 		break;
-	case ER_INTERNAL:
+	case er_intern:
 	default:
 		fputs("Internal error", stderr);
-		exit(EX_INTERNAL);
+		exit(ex_intern);
 	}
 	return 1;
 }

@@ -1,16 +1,17 @@
+/*
+ * Main entry point and parser
+ */
 #ifndef MAIN_H
 #define MAIN_H
 
 
-/** Maximum ESSI-program string length */
-#define STR_SZ 128
-
+/** Termination status */
 enum exit_status {
-	EX_NORM = 0,
-	EX_NOMEMORY,
-	EX_SYNTAX,
-	EX_INTERNAL
+	ex_norm = 0,
+	ex_syntax,
+	ex_intern
 };
+
 
 /** Current processing line number */
 extern int line_no;
