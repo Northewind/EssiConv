@@ -8,7 +8,8 @@
 enum err_type {
 	er_syntax = 1,
 	er_intern,
-	er_unsupport_code
+	er_unsupport_code,
+	er_cmdline_opt
 };
 
 int err_proc(enum err_type);

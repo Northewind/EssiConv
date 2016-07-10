@@ -14,6 +14,9 @@ int err_proc(enum err_type e)
 	case er_unsupport_code:
 		fprintf(stderr, "Unsupported code in line %d\n", prs_lineno());
 		break;
+	case er_cmdline_opt:
+		fputs("Unknown command line option", stderr);
+		exit(ex_cmdline_opt);
 	case er_intern:
 	default:
 		fputs("Internal error", stderr);

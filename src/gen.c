@@ -26,12 +26,18 @@ enum inc_abs {
 
 
 enum buf_sizes {
-	max_mcode_str_len = 64,
-	max_block_comment_str_len = 128
+	max_block_str_len = 64,
+	max_block_comment_len = 128
+};
+
+
+enum speed {
+	speed_rapid = 1000
 };
 
 
 static struct state {
+	double time;
 	double x, y;
 	enum enabl comment;
 	enum enabl rapid;
@@ -41,14 +47,24 @@ static struct state {
 	enum enabl marker2;
 
 	enum kerf_comp comp;
+	unsigned feed;
 
 	enum inc_abs mode;
 } s;
 
 
-/** Initial automatum state */
+static const char * const str_on  = "on";
+static const char * const str_off = "off";
+static const char * const str_comp_disable = "disable";
+static const char * const str_comp_left    = "left";
+static const char * const str_comp_right   = "right";
+static const char * const str_mode_abs     = "abs";
+static const char * const str_mode_inc     = "inc";
+
+
 void gen_init()
 {
+	s.time = 0.0;
 	s.x = s.y = 0.0;
 	s.comment = off;
 	s.rapid = off;
@@ -63,15 +79,81 @@ void gen_init()
 	s.marker2 = off;
 
 	s.comp = kc_disable;
+	s.feed = 0;
 	
-	s.mode = ia_incremental; /*gen_mode_inc();*/ 
+	s.mode = ia_incremental;
+}
+
+
+/** Convert enum enabl to string */
+static const char * const enabl2str(enum enabl val)
+{
+	switch (val) {
+	case on:
+		return str_on;
+	case off:
+		return str_off;
+	}
+	return NULL;
+}
+
+
+/** Convert enum kerf_comp to string */
+static const char * const comp2str(enum kerf_comp val)
+{
+	switch (val) {
+	case kc_disable:
+		return str_comp_disable;
+	case kc_left:
+		return str_comp_left;
+	case kc_right:
+		return str_comp_right;
+	}
+	return NULL;
+}
+
+
+/** Convert enum kerf_comp to string */
+static const char * const mode2str(enum inc_abs val)
+{
+	switch (val) {
+	case ia_absolute:
+		return str_mode_abs;
+	case ia_incremental:
+		return str_mode_inc;
+	}
+	return NULL;
+}
+
+
+void gen_print_state()
+{
+	puts("Automaton state:");
+	printf("  time:     %g\n", s.time);
+	printf("  x: %g,  y: %g\n", s.x, s.y);
+	printf("  comment:  %s\n", enabl2str(s.comment));
+	printf("  rapid:    %s\n", enabl2str(s.rapid));
+	printf("  cutting:  %s\n", enabl2str(s.cutting));
+	printf("  marker1:  %s\n", enabl2str(s.marker1));
+	{
+		int i;
+		printf("  Marker offsets:");
+		for (i = 0; i < offset_number; i++) {
+			if (i % 4 == 0) putchar('\n');
+			printf("    offset %d: %s", i+1, enabl2str(s.marker_offset[i]));
+		}
+	}
+	printf("\n  marker2:  %s\n", enabl2str(s.marker2));
+	printf("  comp:     %s\n", comp2str(s.comp));
+	printf("  feed:     %u\n", s.feed);
+	printf("  mode:     %s\n\n", mode2str(s.mode));
 }
 
 
 /** Print G-code and comment (optional) */
 static void print(char *x, char *y)
 {
-	printf(x);
+	fputs(x, stdout);
 	if (cmd_opt_comments())
 		printf("\t\t(%s)", y);
 	putchar('\n');
@@ -95,7 +177,7 @@ static void move_xy(double x, double y)
 /** Linear interpolation generation */
 void gen_lineto(double x, double y)
 {
-	char block_str[max_mcode_str_len];
+	char block_str[max_block_str_len];
 	move_xy(x, y);
 	if (s.rapid) {
 		printf("G0 ");
@@ -119,7 +201,7 @@ static void incIJ(double *i, double *j)
 
 void gen_arcCW(double x, double y, double i, double j)
 {
-	char block_str[max_mcode_str_len];
+	char block_str[max_block_str_len];
 	incIJ(&i, &j);
 	move_xy(x, y);
 	s.rapid = 0;
@@ -130,7 +212,7 @@ void gen_arcCW(double x, double y, double i, double j)
 
 void gen_arcCCW(double x, double y, double i, double j)
 {
-	char block_str[max_mcode_str_len];
+	char block_str[max_block_str_len];
 	incIJ(&i, &j);
 	move_xy(x, y);
 	s.rapid = 0;
@@ -192,7 +274,7 @@ void gen_marker1(enum enabl val)
 void gen_marker_offset(int idx, enum enabl val)
 {
 	int m_on, m_off;
-	char m_str[max_mcode_str_len], comm_str[max_block_comment_str_len];
+	char m_str[max_block_str_len], comm_str[max_block_comment_len];
 	if (idx == 0 || idx == 1) {
 		idx = 1;
 		m_on = 11;
@@ -268,7 +350,8 @@ void gen_kerf_comp_disable()
 
 void gen_feed(unsigned val)
 {
-	char block_str[max_mcode_str_len];
+	char block_str[max_block_str_len];
+	s.feed = val;
 	sprintf(block_str, "F%u", val);
 	print(block_str, "machine speed");
 }
@@ -309,3 +392,4 @@ void gen_mode_abs()
 {
 	mode(ia_absolute);
 }
+

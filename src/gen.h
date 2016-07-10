@@ -13,6 +13,9 @@ enum enabl {
 /** Initialize automaton state */
 void gen_init();
 
+/** Print current state */
+void gen_print_state();
+
 /** Generate straight movement */
 void gen_lineto(double x, double y);
 

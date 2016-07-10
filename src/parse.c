@@ -31,9 +31,9 @@ enum essi_codes {
 	es_marker_offset2_on,
 	es_marker_offset2_off,
 
-	es_kerf_comp_left=29,
+	es_kerf_comp_left = 29,
 	es_kerf_comp_right,
-	es_kerf_comp_disable=38,
+	es_kerf_comp_disable = 38,
 	es_feed,
 
 	es_cutting53_on = 53,
@@ -126,6 +126,7 @@ static void code(char *str)
 		gen_marker_offset(2, off);
 		break;
 
+
 	case es_kerf_comp_left:
 		gen_kerf_comp_left();
 		break;
@@ -138,6 +139,7 @@ static void code(char *str)
 	case es_feed:
 		gen_feed(atoi(endptr)*10);
 		break;
+
 
 	case es_cutting53_on:
 		gen_cutting(on);
@@ -152,6 +154,7 @@ static void code(char *str)
 		gen_program_end();
 		break;
 	
+
 	case es_mode_inc:
 		gen_mode_inc();
 		break;
@@ -159,9 +162,11 @@ static void code(char *str)
 		gen_mode_abs();
 		break;
 
+
 	case es_program_end99:
 		gen_program_end();
 		break;
+
 
 	case es_marker_offset3_on:
 		gen_marker_offset(3, on);
