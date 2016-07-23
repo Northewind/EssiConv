@@ -1,3 +1,8 @@
+/**
+\file
+\brief Parser for ESSI CNC-programs
+\copyright GNU General Public License v3
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

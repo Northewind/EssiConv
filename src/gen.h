@@ -1,6 +1,8 @@
-/*
- * G-code generation unit in automatum style
- */
+/**
+\file
+\brief G-code generation unit in automatum style
+\copyright GNU General Public License v3
+*/
 #ifndef GEN__H
 #define GEN__H
 
@@ -54,4 +56,5 @@ void gen_program_end();
 void gen_mode_inc();
 void gen_mode_abs();
 
-#endif /* GEN__H */
+#endif
+

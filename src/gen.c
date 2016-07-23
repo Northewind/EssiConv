@@ -1,3 +1,8 @@
+/**
+\file
+\brief G-code generation unit in automatum style
+\copyright GNU General Public License v3
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"

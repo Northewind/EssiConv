@@ -1,6 +1,8 @@
-/*
- * Error processing unit
- */
+/**
+\file
+\brief Error processing unit
+\copyright GNU General Public License v3
+*/
 #ifndef ERR_H
 #define ERR_H
 
@@ -15,4 +17,5 @@ enum err_type {
 int err_proc(enum err_type);
 
 
-#endif /* ERR_H */
+#endif
+

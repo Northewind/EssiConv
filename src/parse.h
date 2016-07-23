@@ -1,6 +1,8 @@
-/*
- * Parser for ESSI CNC-programs
- */
+/**
+\file
+\brief Parser for ESSI CNC-programs
+\copyright GNU General Public License v3
+*/
 #ifndef PARSE_H
 #define PARSE_H
 
@@ -14,4 +16,5 @@ int prs_lineno();
 enum exit_status prs_start();
 
 
-#endif /* PARSE_H */
+#endif
+

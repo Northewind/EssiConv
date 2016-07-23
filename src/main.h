@@ -1,6 +1,8 @@
-/*
- * Main entry point
- */
+/**
+\file
+\brief Main entry point
+\copyright GNU General Public License v3
+*/
 #ifndef MAIN_H
 #define MAIN_H
 
@@ -20,4 +22,5 @@ int cmd_opt_time();
 int cmd_opt_comments();
 
 
-#endif /* MAIN_H */
+#endif
+

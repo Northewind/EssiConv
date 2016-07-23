@@ -1,3 +1,8 @@
+/**
+\file
+\brief Error processing unit
+\copyright GNU General Public License v3
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include "main.h"

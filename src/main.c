@@ -1,3 +1,8 @@
+/**
+\file
+\brief Main entry point
+\copyright GNU General Public License v3
+*/
 #include <stdio.h>
 #include <string.h>
 #include "main.h"
