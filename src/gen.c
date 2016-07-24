@@ -131,31 +131,7 @@ static const char * const mode2str(enum inc_abs val)
 }
 
 
-void gen_print_state()
-{
-	puts("Automaton state:");
-	printf("  time:     %g\n", s.time);
-	printf("  x: %g,  y: %g\n", s.x, s.y);
-	printf("  comment:  %s\n", enabl2str(s.comment));
-	printf("  rapid:    %s\n", enabl2str(s.rapid));
-	printf("  cutting:  %s\n", enabl2str(s.cutting));
-	printf("  marker1:  %s\n", enabl2str(s.marker1));
-	{
-		int i;
-		printf("  Marker offsets:");
-		for (i = 0; i < offset_number; i++) {
-			if (i % 4 == 0) putchar('\n');
-			printf("    offset %d: %s", i+1, enabl2str(s.marker_offset[i]));
-		}
-	}
-	printf("\n  marker2:  %s\n", enabl2str(s.marker2));
-	printf("  comp:     %s\n", comp2str(s.comp));
-	printf("  feed:     %u\n", s.feed);
-	printf("  mode:     %s\n\n", mode2str(s.mode));
-}
-
-
-/** Print G-code and comment (optional) */
+/** Print G-code and optional comment */
 static void print(char *x, char *y)
 {
 	fputs(x, stdout);

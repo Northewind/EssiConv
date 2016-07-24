@@ -41,7 +41,7 @@ Options:\n\
     -c    Print comment for each exporting block.\n\
     -t    Print time CNC-program execution.\n\
     -h    This help message.\n\
-    -v    Version information.\n");
+    -v    Version information.");
 }
 
 
@@ -61,7 +61,7 @@ GNU General Public License for more details.");
 along with this program.  If not, see <http://www.gnu.org/licenses/>.");
 }
 
-
+#ifndef TEST
 int main(int argc, char* argv[])
 {
 	int i;
@@ -78,10 +78,10 @@ int main(int argc, char* argv[])
 					break;
 				case 'h':
 					help();
-					return ex_norm;
+					return er_noerr;
 				case 'v':
 					version();
-					return ex_norm;
+					return er_noerr;
 				default:
 					err_proc(er_cmdline_opt);
 				}
@@ -92,4 +92,5 @@ int main(int argc, char* argv[])
 	}
 	return prs_start();
 }
+#endif
 

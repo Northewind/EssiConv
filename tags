@@ -1,0 +1,167 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ERR_H	src/err.h	7;"	d
+GEN_H	src/gen.h	7;"	d
+MAIN_H	src/main.h	7;"	d
+PARSE_H	src/parse.h	7;"	d
+b	src/ir.c	/^	struct block b;$/;"	m	struct:block_list	typeref:struct:block_list::block	file:
+block	src/ir.h	/^struct block {$/;"	s
+block_list	src/ir.c	/^struct block_list {$/;"	s	file:
+block_type	src/ir.h	/^enum block_type {$/;"	g
+bt_feed	src/ir.h	/^	bt_feed,         \/** use fields: f *\/$/;"	e	enum:block_type
+bt_gcode	src/ir.h	/^	bt_gcode,        \/** use fields: g *\/$/;"	e	enum:block_type
+bt_last_block	src/ir.h	/^	bt_last_block    \/** special for detecting end of block seq *\/$/;"	e	enum:block_type
+bt_mcode	src/ir.h	/^	bt_mcode,        \/** use fields: m *\/$/;"	e	enum:block_type
+bt_move_circ	src/ir.h	/^	bt_move_circ,    \/** use fields: g, x, y, i, j *\/$/;"	e	enum:block_type
+bt_move_lin	src/ir.h	/^	bt_move_lin,     \/** use fields: g, x, y  *\/$/;"	e	enum:block_type
+buf_sizes	src/gen.c	/^enum buf_sizes {$/;"	g	file:
+buf_sizes	src/parse.c	/^enum buf_sizes {$/;"	g	file:
+cmd_line_arg_max_length	src/main.c	/^	cmd_line_arg_max_length = 2$/;"	e	enum:__anon1	file:
+cmd_opt_comments	src/main.c	/^int cmd_opt_comments()$/;"	f
+cmd_opt_time	src/main.c	/^int cmd_opt_time()$/;"	f
+command_aux	src/parse.c	/^static void command_aux(char *str)$/;"	f	file:
+command_move	src/parse.c	/^static int command_move(char *s)$/;"	f	file:
+comment	src/gen.c	/^	enum enabl comment;$/;"	m	struct:state	typeref:enum:state::enabl	file:
+comp	src/gen.c	/^	enum kerf_comp comp;$/;"	m	struct:state	typeref:enum:state::kerf_comp	file:
+comp	src/gen.c	/^static void comp(enum kerf_comp val)$/;"	f	file:
+comp2str	src/gen.c	/^static const char * const comp2str(enum kerf_comp val)$/;"	f	file:
+current	src/ir.c	/^	struct block_list *current;$/;"	m	struct:ir_prog	typeref:struct:ir_prog::block_list	file:
+cutting	src/gen.c	/^	enum enabl cutting;$/;"	m	struct:state	typeref:enum:state::enabl	file:
+enabl	src/gen.h	/^enum enabl {$/;"	g
+enabl2str	src/gen.c	/^static const char * const enabl2str(enum enabl val)$/;"	f	file:
+end	src/ir.c	/^	struct block_list *end;$/;"	m	struct:ir_prog	typeref:struct:ir_prog::block_list	file:
+er_cmdline_opt	src/err.h	/^	er_cmdline_opt,$/;"	e	enum:err_status
+er_intern	src/err.h	/^	er_intern,$/;"	e	enum:err_status
+er_noerr	src/err.h	/^	er_noerr = 0,$/;"	e	enum:err_status
+er_nomem	src/err.h	/^	er_nomem$/;"	e	enum:err_status
+er_syntax	src/err.h	/^	er_syntax,$/;"	e	enum:err_status
+er_unsupport_code	src/err.h	/^	er_unsupport_code,$/;"	e	enum:err_status
+err_proc	src/err.c	/^void err_proc(enum err_status e)$/;"	f
+err_status	src/err.h	/^enum err_status {$/;"	g
+es_comment_end	src/parse.c	/^	es_comment_end,$/;"	e	enum:essi_codes	file:
+es_comment_start	src/parse.c	/^	es_comment_start = 3,$/;"	e	enum:essi_codes	file:
+es_cutting53_on	src/parse.c	/^	es_cutting53_on = 53,$/;"	e	enum:essi_codes	file:
+es_cutting54_off	src/parse.c	/^	es_cutting54_off,$/;"	e	enum:essi_codes	file:
+es_cutting_off	src/parse.c	/^	es_cutting_off,$/;"	e	enum:essi_codes	file:
+es_cutting_on	src/parse.c	/^	es_cutting_on,$/;"	e	enum:essi_codes	file:
+es_feed	src/parse.c	/^	es_feed,$/;"	e	enum:essi_codes	file:
+es_func_reset	src/parse.c	/^	es_func_reset = 63,$/;"	e	enum:essi_codes	file:
+es_kerf_comp_disable	src/parse.c	/^	es_kerf_comp_disable = 38,$/;"	e	enum:essi_codes	file:
+es_kerf_comp_left	src/parse.c	/^	es_kerf_comp_left = 29,$/;"	e	enum:essi_codes	file:
+es_kerf_comp_right	src/parse.c	/^	es_kerf_comp_right,$/;"	e	enum:essi_codes	file:
+es_marker1_disable	src/parse.c	/^	es_marker1_disable,$/;"	e	enum:essi_codes	file:
+es_marker1_enable	src/parse.c	/^	es_marker1_enable,$/;"	e	enum:essi_codes	file:
+es_marker2_disable	src/parse.c	/^	es_marker2_disable,$/;"	e	enum:essi_codes	file:
+es_marker2_enable	src/parse.c	/^	es_marker2_enable,$/;"	e	enum:essi_codes	file:
+es_marker_offset1_off	src/parse.c	/^	es_marker_offset1_off,$/;"	e	enum:essi_codes	file:
+es_marker_offset1_on	src/parse.c	/^	es_marker_offset1_on,$/;"	e	enum:essi_codes	file:
+es_marker_offset2_off	src/parse.c	/^	es_marker_offset2_off,$/;"	e	enum:essi_codes	file:
+es_marker_offset2_on	src/parse.c	/^	es_marker_offset2_on,$/;"	e	enum:essi_codes	file:
+es_marker_offset3_off	src/parse.c	/^	es_marker_offset3_off,$/;"	e	enum:essi_codes	file:
+es_marker_offset3_on	src/parse.c	/^	es_marker_offset3_on = 282,$/;"	e	enum:essi_codes	file:
+es_marker_offset4_off	src/parse.c	/^	es_marker_offset4_off,$/;"	e	enum:essi_codes	file:
+es_marker_offset4_on	src/parse.c	/^	es_marker_offset4_on,$/;"	e	enum:essi_codes	file:
+es_marker_offset5_off	src/parse.c	/^	es_marker_offset5_off,$/;"	e	enum:essi_codes	file:
+es_marker_offset5_on	src/parse.c	/^	es_marker_offset5_on,$/;"	e	enum:essi_codes	file:
+es_marker_offset6_off	src/parse.c	/^	es_marker_offset6_off,$/;"	e	enum:essi_codes	file:
+es_marker_offset6_on	src/parse.c	/^	es_marker_offset6_on,$/;"	e	enum:essi_codes	file:
+es_marker_offset7_off	src/parse.c	/^	es_marker_offset7_off,$/;"	e	enum:essi_codes	file:
+es_marker_offset7_on	src/parse.c	/^	es_marker_offset7_on,$/;"	e	enum:essi_codes	file:
+es_marker_offset8_off	src/parse.c	/^	es_marker_offset8_off$/;"	e	enum:essi_codes	file:
+es_marker_offset8_on	src/parse.c	/^	es_marker_offset8_on,$/;"	e	enum:essi_codes	file:
+es_mode_abs	src/parse.c	/^	es_mode_abs,$/;"	e	enum:essi_codes	file:
+es_mode_inc	src/parse.c	/^	es_mode_inc = 81,$/;"	e	enum:essi_codes	file:
+es_program_end	src/parse.c	/^	es_program_end,$/;"	e	enum:essi_codes	file:
+es_program_end99	src/parse.c	/^	es_program_end99 = 99,$/;"	e	enum:essi_codes	file:
+es_program_stop	src/parse.c	/^	es_program_stop = 0,$/;"	e	enum:essi_codes	file:
+es_rapid_disable	src/parse.c	/^	es_rapid_disable,$/;"	e	enum:essi_codes	file:
+es_rapid_enable	src/parse.c	/^	es_rapid_enable,$/;"	e	enum:essi_codes	file:
+essi_codes	src/parse.c	/^enum essi_codes {$/;"	g	file:
+essi_str_max_len	src/parse.c	/^	essi_str_max_len = 128$/;"	e	enum:buf_sizes	file:
+f	src/ir.h	/^	double x, y, i, j, f;$/;"	m	struct:block
+feed	src/gen.c	/^	unsigned feed;$/;"	m	struct:state	file:
+g	src/ir.h	/^	unsigned g, m;$/;"	m	struct:block
+gen_arcCCW	src/gen.c	/^void gen_arcCCW(double x, double y, double i, double j)$/;"	f
+gen_arcCW	src/gen.c	/^void gen_arcCW(double x, double y, double i, double j)$/;"	f
+gen_comment	src/gen.c	/^void gen_comment(enum enabl val)$/;"	f
+gen_cutting	src/gen.c	/^void gen_cutting(enum enabl val)$/;"	f
+gen_feed	src/gen.c	/^void gen_feed(unsigned val)$/;"	f
+gen_init	src/gen.c	/^void gen_init()$/;"	f
+gen_iscomment	src/gen.c	/^enum enabl gen_iscomment()$/;"	f
+gen_kerf_comp_disable	src/gen.c	/^void gen_kerf_comp_disable()$/;"	f
+gen_kerf_comp_left	src/gen.c	/^void gen_kerf_comp_left()$/;"	f
+gen_kerf_comp_right	src/gen.c	/^void gen_kerf_comp_right()$/;"	f
+gen_lineto	src/gen.c	/^void gen_lineto(double x, double y)$/;"	f
+gen_marker1	src/gen.c	/^void gen_marker1(enum enabl val)$/;"	f
+gen_marker2	src/gen.c	/^void gen_marker2(enum enabl val)$/;"	f
+gen_marker_offset	src/gen.c	/^void gen_marker_offset(int idx, enum enabl val)$/;"	f
+gen_mode_abs	src/gen.c	/^void gen_mode_abs()$/;"	f
+gen_mode_inc	src/gen.c	/^void gen_mode_inc()$/;"	f
+gen_program_end	src/gen.c	/^void gen_program_end()$/;"	f
+gen_program_stop	src/gen.c	/^void gen_program_stop()$/;"	f
+gen_rapid	src/gen.c	/^void gen_rapid(enum enabl val)$/;"	f
+gen_reset_func	src/gen.c	/^void gen_reset_func()$/;"	f
+gp_begin	src/ir.c	/^void gp_begin(struct ir_prog *p)$/;"	f
+gp_free	src/ir.c	/^void gp_free(struct ir_prog *p)$/;"	f
+gp_init	src/ir.c	/^struct ir_prog *gp_init()$/;"	f
+gp_insert	src/ir.c	/^enum err_status gp_insert(struct ir_prog *p, struct block b)$/;"	f
+gp_read	src/ir.c	/^struct block gp_read(struct ir_prog *p)$/;"	f
+head	src/ir.c	/^	struct block_list *head;$/;"	m	struct:ir_prog	typeref:struct:ir_prog::block_list	file:
+help	src/main.c	/^static void help()$/;"	f	file:
+i	src/ir.h	/^	double x, y, i, j, f;$/;"	m	struct:block
+ia_absolute	src/gen.c	/^	ia_absolute,$/;"	e	enum:inc_abs	file:
+ia_incremental	src/gen.c	/^	ia_incremental$/;"	e	enum:inc_abs	file:
+incIJ	src/gen.c	/^static void incIJ(double *i, double *j)$/;"	f	file:
+inc_abs	src/gen.c	/^enum inc_abs {$/;"	g	file:
+ir_prog	src/ir.c	/^struct ir_prog {$/;"	s	file:
+is_comment	src/parse.c	/^static int is_comment(char *str, enum essi_codes n)$/;"	f	file:
+j	src/ir.h	/^	double x, y, i, j, f;$/;"	m	struct:block
+kc_disable	src/gen.c	/^	kc_disable,$/;"	e	enum:kerf_comp	file:
+kc_left	src/gen.c	/^	kc_left,$/;"	e	enum:kerf_comp	file:
+kc_right	src/gen.c	/^	kc_right$/;"	e	enum:kerf_comp	file:
+kerf_comp	src/gen.c	/^enum kerf_comp {$/;"	g	file:
+line_no	src/parse.c	/^static int line_no = 0;$/;"	v	file:
+m	src/ir.h	/^	unsigned g, m;$/;"	m	struct:block
+main	src/main.c	/^int main(int argc, char* argv[])$/;"	f
+marker1	src/gen.c	/^	enum enabl marker1;$/;"	m	struct:state	typeref:enum:state::enabl	file:
+marker2	src/gen.c	/^	enum enabl marker2;$/;"	m	struct:state	typeref:enum:state::enabl	file:
+marker_offset	src/gen.c	/^	enum enabl marker_offset[offset_number];$/;"	m	struct:state	typeref:enum:state::enabl	file:
+markers	src/gen.c	/^enum markers {$/;"	g	file:
+max_block_comment_len	src/gen.c	/^	max_block_comment_len = 128$/;"	e	enum:buf_sizes	file:
+max_block_str_len	src/gen.c	/^	max_block_str_len = 64,$/;"	e	enum:buf_sizes	file:
+mode	src/gen.c	/^	enum inc_abs mode;$/;"	m	struct:state	typeref:enum:state::inc_abs	file:
+mode	src/gen.c	/^static void mode(enum inc_abs val)$/;"	f	file:
+mode2str	src/gen.c	/^static const char * const mode2str(enum inc_abs val)$/;"	f	file:
+move_xy	src/gen.c	/^static void move_xy(double x, double y)$/;"	f	file:
+next	src/ir.c	/^	struct block_list *next;$/;"	m	struct:block_list	typeref:struct:block_list::block_list	file:
+off	src/gen.h	/^	off, on$/;"	e	enum:enabl
+offset_number	src/gen.c	/^	offset_number = 8$/;"	e	enum:markers	file:
+on	src/gen.h	/^	off, on$/;"	e	enum:enabl
+opt_comments	src/main.c	/^static int opt_comments = 0;$/;"	v	file:
+opt_time	src/main.c	/^static int opt_time = 0;$/;"	v	file:
+print	src/gen.c	/^static void print(char *x, char *y)$/;"	f	file:
+prs_lineno	src/parse.c	/^int prs_lineno()$/;"	f
+prs_start	src/parse.c	/^enum err_status prs_start()$/;"	f
+rapid	src/gen.c	/^	enum enabl rapid;$/;"	m	struct:state	typeref:enum:state::enabl	file:
+s	src/gen.c	/^} s;$/;"	v	typeref:struct:state	file:
+speed	src/gen.c	/^enum speed {$/;"	g	file:
+speed_rapid	src/gen.c	/^	speed_rapid = 1000$/;"	e	enum:speed	file:
+state	src/gen.c	/^static struct state {$/;"	s	file:
+str_comp_disable	src/gen.c	/^static const char * const str_comp_disable = "disable";$/;"	v	file:
+str_comp_left	src/gen.c	/^static const char * const str_comp_left    = "left";$/;"	v	file:
+str_comp_right	src/gen.c	/^static const char * const str_comp_right   = "right";$/;"	v	file:
+str_mode_abs	src/gen.c	/^static const char * const str_mode_abs     = "abs";$/;"	v	file:
+str_mode_inc	src/gen.c	/^static const char * const str_mode_inc     = "inc";$/;"	v	file:
+str_off	src/gen.c	/^static const char * const str_off = "off";$/;"	v	file:
+str_on	src/gen.c	/^static const char * const str_on  = "on";$/;"	v	file:
+time	src/gen.c	/^	double time;$/;"	m	struct:state	file:
+type	src/ir.h	/^	enum block_type type;$/;"	m	struct:block	typeref:enum:block::block_type
+version	src/main.c	/^static void version()$/;"	f	file:
+x	src/gen.c	/^	double x, y;$/;"	m	struct:state	file:
+x	src/ir.h	/^	double x, y, i, j, f;$/;"	m	struct:block
+y	src/gen.c	/^	double x, y;$/;"	m	struct:state	file:
+y	src/ir.h	/^	double x, y, i, j, f;$/;"	m	struct:block

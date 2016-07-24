@@ -8,7 +8,6 @@
 #include <string.h>
 #include <ctype.h>
 #include "parse.h"
-#include "err.h"
 #include "gen.h"
 
 
@@ -78,7 +77,7 @@ static int is_comment(char *str, enum essi_codes n)
 }
 
 
-static void code(char *str)
+static void command_aux(char *str)
 {
 	char *endptr;
 	enum essi_codes n = strtol(str, &endptr, 10);
@@ -215,7 +214,7 @@ static void code(char *str)
 }
 
 
-static int move(char *s)
+static int command_move(char *s)
 {
 	double coords[4];
 	char *s_next = s;
@@ -244,33 +243,26 @@ static int move(char *s)
 }
 
 
-static void proc_str(char *s)
-{
-	if (s[0] == '%') {
-		puts("%\n");
-	} else if (s[0] == '\n') {
-		putchar('\n');
-		return;
-	} else if (s[0] == '+' || s[0] == '-') {
-		move(s);
-	} else {
-		code(s);
-	}
-}
-
-
 static int line_no = 0;
 
 
-enum exit_status prs_start()
+enum err_status prs_start()
 {
 	char s[essi_str_max_len] = "";
 	gen_init();
 	while (fgets(s, essi_str_max_len, stdin)) {
 		line_no++;
-		proc_str(s);
+		if (s[0] == '%') {
+				puts("%\n");
+		} else if (s[0] == '\n') {
+				putchar('\n');
+		} else if (s[0] == '+' || s[0] == '-') {
+				command_move(s);
+		} else {
+				command_aux(s);
+		}
 	}
-	return ex_norm;
+	return er_noerr;
 }
 
 

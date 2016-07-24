@@ -3,8 +3,8 @@
 \brief G-code generation unit in automatum style
 \copyright GNU General Public License v3
 */
-#ifndef GEN__H
-#define GEN__H
+#ifndef GEN_H
+#define GEN_H
 
 
 /* Enable of disable any function*/
@@ -14,9 +14,6 @@ enum enabl {
 
 /** Initialize automaton state */
 void gen_init();
-
-/** Print current state */
-void gen_print_state();
 
 /** Generate straight movement */
 void gen_lineto(double x, double y);

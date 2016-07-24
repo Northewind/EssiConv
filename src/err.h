@@ -7,14 +7,17 @@
 #define ERR_H
 
 
-enum err_type {
-	er_syntax = 1,
+enum err_status {
+	er_noerr = 0,
+	er_syntax,
 	er_intern,
 	er_unsupport_code,
-	er_cmdline_opt
+	er_cmdline_opt,
+	er_nomem
 };
 
-int err_proc(enum err_type);
+
+void err_proc(enum err_status);
 
 
 #endif
