@@ -27,18 +27,18 @@ struct block {
 };
 
 
-struct ir_prog *gp_init();
+struct ir_prog *ir_init();
 
 /** Insert new command at the end of program */
-enum err_status gp_insert(struct ir_prog *p, struct block b);
+enum err_status ir_insert(struct ir_prog *p, struct block b);
 
 /** Seek begin of program for further reading blocks */
-void gp_begin(struct ir_prog *p);
+void ir_begin(struct ir_prog *p);
 
 /** Read next block from current position in program*/
-struct block gp_read(struct ir_prog *p);
+struct block ir_read(struct ir_prog *p);
 
-void gp_free(struct ir_prog *p);
+void ir_free(struct ir_prog *p);
 
 #endif
 

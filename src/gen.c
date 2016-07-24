@@ -58,15 +58,6 @@ static struct state {
 } s;
 
 
-static const char * const str_on  = "on";
-static const char * const str_off = "off";
-static const char * const str_comp_disable = "disable";
-static const char * const str_comp_left    = "left";
-static const char * const str_comp_right   = "right";
-static const char * const str_mode_abs     = "abs";
-static const char * const str_mode_inc     = "inc";
-
-
 void gen_init()
 {
 	s.time = 0.0;
@@ -90,47 +81,6 @@ void gen_init()
 }
 
 
-/** Convert enum enabl to string */
-static const char * const enabl2str(enum enabl val)
-{
-	switch (val) {
-	case on:
-		return str_on;
-	case off:
-		return str_off;
-	}
-	return NULL;
-}
-
-
-/** Convert enum kerf_comp to string */
-static const char * const comp2str(enum kerf_comp val)
-{
-	switch (val) {
-	case kc_disable:
-		return str_comp_disable;
-	case kc_left:
-		return str_comp_left;
-	case kc_right:
-		return str_comp_right;
-	}
-	return NULL;
-}
-
-
-/** Convert enum kerf_comp to string */
-static const char * const mode2str(enum inc_abs val)
-{
-	switch (val) {
-	case ia_absolute:
-		return str_mode_abs;
-	case ia_incremental:
-		return str_mode_inc;
-	}
-	return NULL;
-}
-
-
 /** Print G-code and optional comment */
 static void print(char *x, char *y)
 {
@@ -148,9 +98,11 @@ static void move_xy(double x, double y)
 	case ia_absolute:
 		s.x = x;
 		s.y = y;
+		break;
 	case ia_incremental:
 		s.x += x;
 		s.y += y;
+		break;
 	}
 }
 
