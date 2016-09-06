@@ -15,14 +15,7 @@ enum {
 };
 
 
-static int opt_time = 0;
 static int opt_comments = 0;
-
-
-int cmd_opt_time()
-{
-	return opt_time;
-}
 
 
 int cmd_opt_comments()
@@ -39,7 +32,6 @@ Usage:\n\
     essi2eia [options] < essi_prog > eia_prog\n\
 Options:\n\
     -c    Print comment for each exporting block.\n\
-    -t    Print time CNC-program execution.\n\
     -h    This help message.\n\
     -v    Version information.");
 }
@@ -72,9 +64,6 @@ int main(int argc, char* argv[])
 				switch (argv[i][j]) {
 				case 'c':
 					opt_comments = 1;
-					break;
-				case 't':
-					opt_time = 1;
 					break;
 				case 'h':
 					help();
